@@ -79,4 +79,25 @@ if warga.Nama == "" || warga.Password == "" {
         "loginStatus": true,
         "data": warga})
 }
+func ProfileWargaOne(c *gin.Context) {
+    id := c.Param("id")
+    var warga models.Warga
+    result := databases.DB.Raw("SELECT * FROM warga WHERE id_warga = ?", id).Scan(&warga)
 
+    if result.Error != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
+        return
+    }
+
+    if warga.Nama == "" {
+        c.JSON(http.StatusBadRequest, gin.H{
+            "error": "No profile found with given id",
+        })
+        return
+    }
+
+    c.JSON(http.StatusOK, gin.H{
+        "statusCode": http.StatusOK,
+        "id": id,
+        "data": warga})
+}

@@ -13,7 +13,7 @@ func Route() {
 	// CREDENTIALS
 	r.POST("/warga/login", profilecontrollers.LoginWarga)
 	r.POST("/warga/register", profilecontrollers.RegisterWarga)
-
+	r.GET("/warga/profile/:id", profilecontrollers.ProfileWargaOne)
 
 	r.Run()
 }
