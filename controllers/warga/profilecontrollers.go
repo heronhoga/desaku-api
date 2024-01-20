@@ -4,7 +4,6 @@ import (
 	"desaku-api/databases"
 	"desaku-api/models"
 	"net/http"
-
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )

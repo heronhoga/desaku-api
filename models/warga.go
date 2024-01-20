@@ -8,3 +8,9 @@ type Warga struct {
     Alamat        string `json:"alamat"`
     Password      string `json:"password"`
 }
+
+type LanggananWifi struct {
+        IDPelanggan int64 `gorm:"column:id_pelanggan"`
+        IDWarga     int64 `gorm:"column:id_warga"`
+        Status      string `gorm:"column:status"`
+    }

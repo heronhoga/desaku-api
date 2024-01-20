@@ -1,7 +1,7 @@
 package routes
 
 import (
-	profilecontrollers "desaku-api/controllers/warga"
+	wargacontrollers "desaku-api/controllers/warga"
 
 	"github.com/gin-gonic/gin"
 )
@@ -11,9 +11,12 @@ func Route() {
 
 	// --WARGA--
 	// CREDENTIALS
-	r.POST("/warga/login", profilecontrollers.LoginWarga)
-	r.POST("/warga/register", profilecontrollers.RegisterWarga)
-	r.GET("/warga/profile/:id", profilecontrollers.ProfileWargaOne)
+	r.POST("/warga/login", wargacontrollers.LoginWarga)
+	r.POST("/warga/register", wargacontrollers.RegisterWarga)
+	r.GET("/warga/profile/:id", wargacontrollers.ProfileWargaOne) //ID WARGA
+
+	// WIFI
+	r.GET("/warga/wifi/status/:id", wargacontrollers.WifiWargaStatus) //ID WARGA
 
 	r.Run()
 }
