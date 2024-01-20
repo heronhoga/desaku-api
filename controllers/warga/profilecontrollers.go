@@ -48,5 +48,35 @@ func RegisterWarga(c *gin.Context) {
         "data": warga})
 }
 
-	
-	
+func LoginWarga(c *gin.Context) {
+    var loginData struct {
+        Nama     string `json:"nama"`
+        Password string `json:"password"`
+    }
+
+    if err := c.ShouldBindJSON(&loginData); err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+        return
+    }
+
+    var warga models.Warga
+    result := databases.DB.Raw("SELECT * FROM warga WHERE nama = ? AND password = ?", loginData.Nama, loginData.Password).Scan(&warga)
+
+if result.Error != nil {
+    c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
+    return
+}
+
+if warga.Nama == "" || warga.Password == "" {
+    c.JSON(http.StatusBadRequest, gin.H{
+        "error": "Invalid username or password",
+        "loginStatus": false,})
+    return
+}
+
+    c.JSON(http.StatusOK, gin.H{
+        "statusCode": http.StatusOK,
+        "loginStatus": true,
+        "data": warga})
+}
+
