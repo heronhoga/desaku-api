@@ -11,7 +11,7 @@ func Route() {
 
 	// --WARGA--
 	// CREDENTIALS
-	r.POST("/warga/login", profilecontrollers.LoginWarga)
+	// r.POST("/warga/login", profilecontrollers.LoginWarga)
 	r.POST("/warga/register", profilecontrollers.RegisterWarga)
 
 

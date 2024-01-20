@@ -1,9 +1,11 @@
 package main
 
 import (
-	"fmt"
+	"desaku-api/databases"
+	"desaku-api/routes"
 )
 
 func main() {
-	fmt.Printf("Hello, World!")
+	databases.ConnectDatabase()
+	routes.Route()
 }
