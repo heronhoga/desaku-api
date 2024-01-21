@@ -37,6 +37,17 @@ func DaftarWifiWarga(c *gin.Context) {
 		return
 	}
 
+	var existingWarga string
+	querySearchWarga := databases.DB.Raw("SELECT id_warga FROM warga WHERE id_warga = ?", wifiData.IdWarga).Scan(&existingWarga)
+
+	if querySearchWarga.RowsAffected == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Warga tidak valid"})
+		return
+	} else if querySearchWarga.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": querySearchWarga.Error.Error()})
+		return
+	}
+
 	var langgananWifi models.LanggananWifi
 	result := databases.DB.Raw("SELECT * FROM daftar_pelanggan_wifi WHERE id_warga = ?", wifiData.IdWarga).Scan(&langgananWifi)
 
