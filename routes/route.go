@@ -20,6 +20,8 @@ func Route() {
 	r.GET("/warga/wifi/status/:id", wargacontrollers.WifiWargaStatus) //ID WARGA
 	// DAFTAR WIFI
 	r.POST("/warga/wifi/daftar", wargacontrollers.DaftarWifiWarga) //REQUEST BODY
+	// PUTUS WIFI
+	r.PUT("/warga/wifi/putus", wargacontrollers.PutusWifiWarga) //REQUEST BODY
 
 	r.Run()
 }

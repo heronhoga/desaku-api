@@ -6,6 +6,8 @@ import (
 	"desaku-api/models"
 	"net/http"
 )
+
+//CHECK WIFI SUBSCRIPTION STATUS
 func WifiWargaStatus(c *gin.Context) {
 	id := c.Param("id")
 
@@ -27,6 +29,7 @@ func WifiWargaStatus(c *gin.Context) {
 	})
 }
 
+//DAFTAR WIFI
 func DaftarWifiWarga(c *gin.Context) {
 	var wifiData struct {
 		IdWarga string `json:"id_warga"`
@@ -34,6 +37,11 @@ func DaftarWifiWarga(c *gin.Context) {
 
 	if err := c.ShouldBindJSON(&wifiData); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if wifiData.IdWarga == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "id_warga is required"})
 		return
 	}
 
@@ -65,6 +73,49 @@ func DaftarWifiWarga(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, gin.H{
 		"statusCode": http.StatusCreated,
+		"data": map[string]string{
+			"id_warga": wifiData.IdWarga,
+			"status": "Sedang diproses",
+		},
+	})
+}
+
+//UNSUBSCRIBE WIFI
+func PutusWifiWarga(c *gin.Context) {
+	var wifiData struct {
+		IdWarga string `json:"id_warga"`
+	}
+
+	if err := c.ShouldBindJSON(&wifiData); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if wifiData.IdWarga == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "id_warga is required"})
+		return
+	}
+
+	var existingWarga string
+	querySearchWarga := databases.DB.Raw("SELECT id_warga FROM daftar_pelanggan_wifi WHERE id_warga = ?", wifiData.IdWarga).Scan(&existingWarga)
+
+	if querySearchWarga.RowsAffected == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Warga tidak valid"})
+		return
+	} else if querySearchWarga.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": querySearchWarga.Error.Error()})
+		return
+	}
+
+	sql := "UPDATE daftar_pelanggan_wifi SET status = ? WHERE id_warga = ?"
+	result := databases.DB.Exec(sql, "prosesputus", wifiData.IdWarga)
+	if result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"statusCode": http.StatusOK,
 		"data": map[string]string{
 			"id_warga": wifiData.IdWarga,
 			"status": "Sedang diproses",
