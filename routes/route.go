@@ -11,12 +11,15 @@ func Route() {
 
 	// --WARGA--
 	// CREDENTIALS
-	r.POST("/warga/login", wargacontrollers.LoginWarga)
-	r.POST("/warga/register", wargacontrollers.RegisterWarga)
+	r.POST("/warga/login", wargacontrollers.LoginWarga) //REQUEST BODY
+	r.POST("/warga/register", wargacontrollers.RegisterWarga) //REQUEST BODY
 	r.GET("/warga/profile/:id", wargacontrollers.ProfileWargaOne) //ID WARGA
 
-	// WIFI
+	// --WIFI--
+	// WIFI STATUS
 	r.GET("/warga/wifi/status/:id", wargacontrollers.WifiWargaStatus) //ID WARGA
+	// DAFTAR WIFI
+	r.POST("/warga/wifi/daftar", wargacontrollers.DaftarWifiWarga) //REQUEST BODY
 
 	r.Run()
 }
