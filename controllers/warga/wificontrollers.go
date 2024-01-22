@@ -211,3 +211,27 @@ func BayarWifiWarga(c *gin.Context) {
         })
     }
 }
+
+func GetTagihanWarga(c *gin.Context) {
+    id := c.Param("id")
+
+    var tagihan []struct {
+        IdTagihan  string `gorm:"column:id_tagihan"`
+        TotalTagihanWifi string `gorm:"column:total_tagihan_wifi"`
+		TanggalTagihan string `gorm:"column:tanggal_tagihan"`
+    }
+
+    result := databases.DB.Raw("SELECT id_tagihan, total_tagihan_wifi, tanggal_tagihan FROM tagihan_wifi WHERE id_pelanggan = ? AND status = 'pending'", id).Scan(&tagihan)
+
+    if result.Error != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
+        return
+    }
+
+    if len(tagihan) == 0 {
+        c.JSON(http.StatusNotFound, gin.H{"error": "Tidak ada tagihan tersedia"})
+        return
+    }
+
+    c.JSON(http.StatusOK, gin.H{"statusCode": http.StatusOK, "data": tagihan})
+}
