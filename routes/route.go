@@ -26,5 +26,11 @@ func Route() {
 	r.PUT("/warga/wifi/bayar/:id", wargacontrollers.BayarWifiWarga) //ID TAGIHAN
 	// DAPATKAN TAGIHAN
 	r.GET("/warga/wifi/tagihan/:id", wargacontrollers.GetTagihanWarga) //ID WARGA
+
+	// --PAJAK--
+	// DAPATKAN TAGIHAN PAJAK
+	r.GET("/warga/pajak/tagihan/:id", wargacontrollers.GetTagihanPajakWarga) //ID WARGA
+	// BAYAR PAJAK
+	r.PUT("/warga/pajak/bayar/:id", wargacontrollers.BayarPajakWarga)
 	r.Run()
 }
