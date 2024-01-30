@@ -32,5 +32,13 @@ func Route() {
 	r.GET("/warga/pajak/tagihan/:id", wargacontrollers.GetTagihanPajakWarga) //ID WARGA
 	// BAYAR PAJAK
 	r.PUT("/warga/pajak/bayar/:id", wargacontrollers.BayarPajakWarga) //ID TAGIHAN
+
+	// --ARTIKEL--
+	// DAPATKAN SEMUA ARTIKEL
+	r.GET("/warga/artikel", wargacontrollers.GetAllArtikel)
+
+	// --E-PASAR--
+	// DAPATKAN SEMUA E-PASAR
+
 	r.Run()
 }
