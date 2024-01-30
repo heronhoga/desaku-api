@@ -39,6 +39,7 @@ func Route() {
 
 	// --E-PASAR--
 	// DAPATKAN SEMUA E-PASAR
+	r.GET("/warga/epasar", wargacontrollers.GetAllEpasar)
 
 	r.Run()
 }
