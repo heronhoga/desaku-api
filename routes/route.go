@@ -2,7 +2,7 @@ package routes
 
 import (
 	wargacontrollers "desaku-api/controllers/warga"
-
+	admincontrollers "desaku-api/controllers/admin"
 	"github.com/gin-gonic/gin"
 )
 
@@ -53,5 +53,9 @@ func Route() {
 	// BAYAR IURAN
 	r.PUT("/warga/iuran/bayar/:id", wargacontrollers.BayarIuranWarga) //ID IURAN
 
+
+	//--ADMIN--
+	// AUTH
+	r.POST("/admin/login", admincontrollers.LoginAdmin) //REQUEST BODY
 	r.Run()
 }
