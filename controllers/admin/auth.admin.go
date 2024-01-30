@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"desaku-api/databases"
 	"desaku-api/middlewares"
+	"time"
 )
 
 func LoginAdmin(c *gin.Context) {
@@ -64,10 +65,20 @@ func LoginAdmin(c *gin.Context) {
 	    return
 	}
 
+expire := time.Now().Add(24 * time.Hour)
+c.SetCookie("token", token, int(expire.Sub(time.Now()).Seconds()), "/", "", false, true)
+
 	c.JSON(http.StatusOK, gin.H{
 	    "statusCode": http.StatusOK,
 	    "loginStatus": true,
 	    "id_admin": adminID,
 	    "data": admin,
 	})
+	}
+
+	func CheckAdmin(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"statusCode": http.StatusOK,
+			"loginStatus": true,
+		})
 	}

@@ -4,6 +4,7 @@ import (
 	wargacontrollers "desaku-api/controllers/warga"
 	admincontrollers "desaku-api/controllers/admin"
 	"github.com/gin-gonic/gin"
+	"desaku-api/middlewares"
 )
 
 func Route() {
@@ -57,5 +58,9 @@ func Route() {
 	//--ADMIN--
 	// AUTH
 	r.POST("/admin/login", admincontrollers.LoginAdmin) //REQUEST BODY
+
+	//CHECK
+	r.GET("/admin/check", middlewares.TokenAuthMiddleware(), admincontrollers.CheckAdmin)
+
 	r.Run()
 }
