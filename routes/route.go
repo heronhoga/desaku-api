@@ -47,5 +47,9 @@ func Route() {
 	// BAYAR LISTRIK
 	r.PUT("/warga/listrik/bayar/:id", wargacontrollers.BayarListrikWarga) //ID TAGIHAN
 
+	//--IURAN--
+	// DAPATKAN TAGIHAN IURAN
+	r.GET("/warga/iuran/tagihan/:id", wargacontrollers.GetIuranForThisMonth) //ID WARGA
+	
 	r.Run()
 }
