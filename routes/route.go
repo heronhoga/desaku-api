@@ -41,5 +41,9 @@ func Route() {
 	// DAPATKAN SEMUA E-PASAR
 	r.GET("/warga/epasar", wargacontrollers.GetAllEpasar)
 
+	//--LISTRIK--
+	// DAPATKAN TAGIHAN LISTRIK
+	r.GET("/warga/listrik/tagihan/:id", wargacontrollers.GetTagihanListrikWarga) //ID WARGA
+
 	r.Run()
 }
