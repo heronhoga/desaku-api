@@ -50,6 +50,8 @@ func Route() {
 	//--IURAN--
 	// DAPATKAN TAGIHAN IURAN
 	r.GET("/warga/iuran/tagihan/:id", wargacontrollers.GetIuranForThisMonth) //ID WARGA
-	
+	// BAYAR IURAN
+	r.PUT("/warga/iuran/bayar/:id", wargacontrollers.BayarIuranWarga) //ID IURAN
+
 	r.Run()
 }
