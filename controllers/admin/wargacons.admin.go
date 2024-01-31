@@ -29,3 +29,29 @@ if wargaQuery.RowsAffected == 0 {
 
 	c.JSON(http.StatusOK, gin.H{"data": warga})
 }
+
+func GetSpecificWarga(c *gin.Context) {
+	id := c.Param("id")
+
+	var warga struct {
+		IdWarga string `json:"id_warga"`
+		Nama string `json:"nama"`
+		TanggalLahir string `json:"tanggal_lahir"`
+		JenisKelamin string `json:"jenis_kelamin"`
+		Nik string `json:"nik"`
+		Alamat string `json:"alamat"`
+		Saldo string `json:"saldo"`
+	}
+
+	wargaQuery := databases.DB.Raw(`SELECT id_warga, nama, tanggal_lahir,enis_kelamin, nik, alamat, saldo FROM warga WHERE id_warga = ?`, id).Scan(&warga)
+	if wargaQuery.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": wargaQuery.Error.Error()})
+		return
+	}
+
+	if wargaQuery.RowsAffected == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"error": "No record found"})
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": warga})
+}
