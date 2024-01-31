@@ -68,7 +68,7 @@ func Route() {
 	// --ADMIN - WARGA--
 	// DAPATKAN SEMUA WARGA
 	r.GET("/admin/warga", middlewares.TokenAuthMiddleware(), admincontrollers.GetAllWarga)
-	
+	r.GET("/admin/warga/:id", middlewares.TokenAuthMiddleware(), admincontrollers.GetSpecificWarga)
 
 	r.Run()
 }
