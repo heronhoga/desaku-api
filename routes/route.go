@@ -79,5 +79,7 @@ func Route() {
 	// --ADMIN - LISTRIK--
 	// DAPATKAN TAGIHAN LISTRIK
 	r.GET("/admin/listrik/tagihan/:month", middlewares.TokenAuthMiddleware(), admincontrollers.GetAllTagihanListrik) //BULAN INT
+	//BUAT TAGIHAN LISTRIK
+	r.POST("/admin/listrik/tagihan/:month", middlewares.TokenAuthMiddleware(), admincontrollers.CreateTagihanListrik) //BULAN INT
 	r.Run()
 }
