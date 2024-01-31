@@ -73,6 +73,7 @@ func Route() {
 	r.GET("/admin/warga/:id", middlewares.TokenAuthMiddleware(), admincontrollers.GetSpecificWarga)
 	// EDIT DATA WARGA
 	r.PUT("/admin/warga/:id", middlewares.TokenAuthMiddleware(), admincontrollers.EditWargaData) //ID WARGA DAN REQUEST BODY
-
+	// DELETE DATA WARGA
+	r.DELETE("/admin/warga/:id", middlewares.TokenAuthMiddleware(), admincontrollers.DeleteWargaData) //ID WARGA
 	r.Run()
 }
