@@ -81,5 +81,9 @@ func Route() {
 	r.GET("/admin/listrik/tagihan/:month", middlewares.TokenAuthMiddleware(), admincontrollers.GetAllTagihanListrik) //BULAN INT
 	//BUAT TAGIHAN LISTRIK
 	r.POST("/admin/listrik/tagihan/:month", middlewares.TokenAuthMiddleware(), admincontrollers.CreateTagihanListrik) //BULAN INT
+
+	// --ADMIN - PAJAK--
+	// DAPATKAN TAGIHAN PAJAK
+	r.GET("/admin/pajak/tagihan/:year", middlewares.TokenAuthMiddleware(), admincontrollers.GetAllPajak) //Tahun Int
 	r.Run()
 }
