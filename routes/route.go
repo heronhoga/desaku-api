@@ -1,10 +1,11 @@
 package routes
 
 import (
-	wargacontrollers "desaku-api/controllers/warga"
 	admincontrollers "desaku-api/controllers/admin"
-	"github.com/gin-gonic/gin"
+	wargacontrollers "desaku-api/controllers/warga"
 	"desaku-api/middlewares"
+
+	"github.com/gin-gonic/gin"
 )
 
 func Route() {
@@ -68,7 +69,10 @@ func Route() {
 	// --ADMIN - WARGA--
 	// DAPATKAN SEMUA WARGA
 	r.GET("/admin/warga", middlewares.TokenAuthMiddleware(), admincontrollers.GetAllWarga)
+	// DAPATKAN WARGA BERDASARKAN ID
 	r.GET("/admin/warga/:id", middlewares.TokenAuthMiddleware(), admincontrollers.GetSpecificWarga)
+	// EDIT DATA WARGA
+	r.PUT("/admin/warga/:id", middlewares.TokenAuthMiddleware(), admincontrollers.EditWargaData) //ID WARGA DAN REQUEST BODY
 
 	r.Run()
 }
