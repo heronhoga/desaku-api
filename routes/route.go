@@ -75,5 +75,9 @@ func Route() {
 	r.PUT("/admin/warga/:id", middlewares.TokenAuthMiddleware(), admincontrollers.EditWargaData) //ID WARGA DAN REQUEST BODY
 	// DELETE DATA WARGA
 	r.DELETE("/admin/warga/:id", middlewares.TokenAuthMiddleware(), admincontrollers.DeleteWargaData) //ID WARGA
+
+	// --ADMIN - LISTRIK--
+	// DAPATKAN TAGIHAN LISTRIK
+	r.GET("/admin/listrik/tagihan/:month", middlewares.TokenAuthMiddleware(), admincontrollers.GetAllTagihanListrik) //BULAN INT
 	r.Run()
 }
