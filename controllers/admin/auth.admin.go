@@ -1,11 +1,12 @@
 package admin
 
 import (
-	"github.com/gin-gonic/gin"
-	"net/http"
 	"desaku-api/databases"
 	"desaku-api/middlewares"
+	"net/http"
 	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 func LoginAdmin(c *gin.Context) {
@@ -65,8 +66,8 @@ func LoginAdmin(c *gin.Context) {
 	    return
 	}
 
-expire := time.Now().Add(24 * time.Hour)
-c.SetCookie("token", token, int(expire.Sub(time.Now()).Seconds()), "/", "", false, true)
+	expire := time.Now().Add(24 * time.Hour)
+	c.SetCookie("token", token, int(time.Until(expire).Seconds()), "/", "", false, true)
 
 	c.JSON(http.StatusOK, gin.H{
 	    "statusCode": http.StatusOK,
@@ -76,9 +77,29 @@ c.SetCookie("token", token, int(expire.Sub(time.Now()).Seconds()), "/", "", fals
 	})
 	}
 
-	func CheckAdmin(c *gin.Context) {
+func CheckAdmin(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"statusCode": http.StatusOK,
 			"loginStatus": true,
 		})
 	}
+
+func LogoutAdmin(c *gin.Context) {
+	token, err := c.Cookie("token")
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "No token provided"})
+        return
+    }
+
+	err = databases.DB.Exec("UPDATE admin SET session = NULL WHERE session = ?", token).Error
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.SetCookie("token", "", -1, "/", "", false, true)
+	c.JSON(http.StatusOK, gin.H{
+		"statusCode": http.StatusOK,
+		"logoutStatus": true,
+	})
+}

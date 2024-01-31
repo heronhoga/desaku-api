@@ -62,5 +62,13 @@ func Route() {
 	//CHECK
 	r.GET("/admin/check", middlewares.TokenAuthMiddleware(), admincontrollers.CheckAdmin)
 
+	//LOGOUT
+	r.GET("/admin/logout", middlewares.TokenAuthMiddleware(), admincontrollers.LogoutAdmin)
+
+	// --ADMIN - WARGA--
+	// DAPATKAN SEMUA WARGA
+	r.GET("/admin/warga", middlewares.TokenAuthMiddleware(), admincontrollers.GetAllWarga)
+	
+
 	r.Run()
 }
