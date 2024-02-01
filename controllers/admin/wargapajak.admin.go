@@ -67,3 +67,38 @@ func GetSpecificPajak(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": WargaPajak})
 }
 
+func CreateTagihanPajak (c *gin.Context) {
+	year := c.Param("year")
+
+	var WargaList []struct {
+        IdWarga string `gorm:"column:id_warga"`
+    }
+
+    wargaQuery := databases.DB.Raw(`SELECT id_warga FROM warga`).Scan(&WargaList)
+    if wargaQuery.Error != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": wargaQuery.Error.Error()})
+        return
+    }
+
+	for _, warga := range WargaList {
+		pajak := struct {
+			IdWarga string `gorm:"column:id_warga"`
+			Tahun string `gorm:"column:tahun"`
+			StatusBayar string `gorm:"column:status_bayar"`
+		} {
+			IdWarga: warga.IdWarga,
+			Tahun: year,
+			StatusBayar: "pending",
+		}
+
+		result := databases.DB.Exec(`INSERT INTO pajak (id_warga, tahun, status_bayar) VALUES (?, ?, ?)`, pajak.IdWarga, pajak.Tahun, pajak.StatusBayar)
+		if result.Error != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
+			return
+		}
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Pajak created successfully"})
+
+}
+

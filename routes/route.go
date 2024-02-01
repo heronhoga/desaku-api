@@ -87,5 +87,8 @@ func Route() {
 	r.GET("/admin/pajak/tagihan/:year", middlewares.TokenAuthMiddleware(), admincontrollers.GetAllPajak) //TAHUN INT
 	// DAPATKAN TAGIHAN PAJAK SPESIFIK
 	r.GET("/admin/pajak/:id", middlewares.TokenAuthMiddleware(), admincontrollers.GetSpecificPajak) //ID PAJAK
+	//BUAT TAGIHAN PAJAK
+	r.POST("/admin/pajak/tagihan/:year", middlewares.TokenAuthMiddleware(), admincontrollers.CreateTagihanPajak) //TAHUN INT
+	
 	r.Run()
 }
