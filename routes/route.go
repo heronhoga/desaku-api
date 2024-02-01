@@ -120,5 +120,7 @@ func Route() {
 	// DAPATKAN SEMUA TOKO
 	r.GET("/admin/epasar", middlewares.TokenAuthMiddleware(), admincontrollers.GetAllToko)
 	// DAPATKAN TOKO BERDASARKAN ID
+	r.GET("/admin/epasar/:id", middlewares.TokenAuthMiddleware(), admincontrollers.GetSpecificToko)
+
 	r.Run()
 }
