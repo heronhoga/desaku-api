@@ -132,6 +132,8 @@ func Route() {
 	// --ADMIN -ARTIKEL--
 	// DAPATKAN SEMUA ARTIKEL
 	r.GET("/admin/artikel", middlewares.TokenAuthMiddleware(), admincontrollers.GetAllArtikel)
+	// DAPATKAN ARTIKEL SPESIFIK
+	r.GET("/admin/artikel/:id", middlewares.TokenAuthMiddleware(), admincontrollers.GetSpecificArtikel)
 
 	r.Run()
 }
