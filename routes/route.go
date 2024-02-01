@@ -109,5 +109,7 @@ func Route() {
 	// --ADMIN - IURAN--
 	// DAPATKAN TAGIHAN IURAN
 	r.GET("/admin/iuran/tagihan/:month", middlewares.TokenAuthMiddleware(), admincontrollers.GetAllIuran) //BULAN
+	//BUAT TAGIHAN IURAN
+	r.POST("/admin/iuran/tagihan/:month", middlewares.TokenAuthMiddleware(), admincontrollers.CreateIuran) //BULAN
 	r.Run()
 }

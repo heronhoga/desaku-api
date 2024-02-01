@@ -4,7 +4,7 @@ import (
 	"desaku-api/databases"
 	"net/http"
 	"time"
-
+	"fmt"
 	"github.com/gin-gonic/gin"
 )
 func GetAllIuran (c *gin.Context) {
@@ -38,4 +38,41 @@ func GetAllIuran (c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"data": WargaIuran})
+}
+
+func CreateIuran (c *gin.Context) {
+	month := c.Param("month")
+	
+	var dataIuran[] struct {
+		IdWarga string `json:"id_warga"`
+	}
+
+	wargaQuery := databases.DB.Raw(
+		`SELECT id_warga FROM warga`).Scan(&dataIuran)
+	
+	if wargaQuery.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": wargaQuery.Error.Error()})
+		return
+	}
+
+	if wargaQuery.RowsAffected == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"error": "No record found"})
+		return
+	}
+
+	currentYear := time.Now().Year()
+	date := fmt.Sprintf("%d-%s-01", currentYear, month)
+
+	for _, warga := range dataIuran {
+		insertIuran := databases.DB.Exec(`INSERT INTO iuran (id_warga, jumlah_iuran, tanggal_iuran) 
+		VALUES (?, ?, ?)`, warga.IdWarga, 100000, date)
+
+		if insertIuran.Error != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": insertIuran.Error.Error()})
+			return
+		}
+
+	}
+	
+	c.JSON(http.StatusOK, gin.H{"message": "Data created successfully"})
 }
