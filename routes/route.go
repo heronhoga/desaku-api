@@ -105,5 +105,9 @@ func Route() {
 	r.GET("/admin/wifi/putus", middlewares.TokenAuthMiddleware(), admincontrollers.DataPutusWifi)
 	//PUTUS WIFI
 	r.DELETE("/admin/wifi/putus/:id", middlewares.TokenAuthMiddleware(), admincontrollers.PutusWifi) //ID PELANGGAN
+
+	// --ADMIN - IURAN--
+	// DAPATKAN TAGIHAN IURAN
+	r.GET("/admin/iuran/tagihan/:month", middlewares.TokenAuthMiddleware(), admincontrollers.GetAllIuran) //BULAN
 	r.Run()
 }
