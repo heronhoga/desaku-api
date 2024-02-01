@@ -91,5 +91,9 @@ func Route() {
 	r.POST("/admin/pajak/tagihan/:year", middlewares.TokenAuthMiddleware(), admincontrollers.CreateTagihanPajak) //TAHUN INT
 	//ISI TOTAL TAGIHAN PAJAK
 	r.PUT("/admin/pajak/:id", middlewares.TokenAuthMiddleware(), admincontrollers.UpdateTagihanPajak) //ID PAJAK DAN REQUEST BODY
+
+	// --ADMIN - WIFI--
+	// DAPATKAN TAGIHAN WIFI
+	r.GET("/admin/wifi/tagihan", middlewares.TokenAuthMiddleware(), admincontrollers.GetAllTagihanWifi)
 	r.Run()
 }
