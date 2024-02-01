@@ -111,3 +111,20 @@ func EditTokoData(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "Record updated successfully"})
 }
+
+func DeleteTokoData(c *gin.Context) {
+	id := c.Param("id")
+
+	deleteQuery := databases.DB.Exec("DELETE FROM epasar WHERE id_toko = ?", id)
+	if deleteQuery.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": deleteQuery.Error.Error()})
+		return
+	}
+
+	if deleteQuery.RowsAffected == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"error": "No record found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Record deleted successfully"})
+}

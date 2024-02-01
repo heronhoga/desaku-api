@@ -123,6 +123,8 @@ func Route() {
 	r.GET("/admin/epasar/:id", middlewares.TokenAuthMiddleware(), admincontrollers.GetSpecificToko)
 	// UPDATE TOKO
 	r.PUT("/admin/epasar/:id", middlewares.TokenAuthMiddleware(), admincontrollers.EditTokoData)
+	// HAPUS TOKO
+	r.DELETE("/admin/epasar/:id", middlewares.TokenAuthMiddleware(), admincontrollers.DeleteTokoData)
 	
 
 	r.Run()
