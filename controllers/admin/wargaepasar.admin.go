@@ -128,3 +128,26 @@ func DeleteTokoData(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "Record deleted successfully"})
 }
+
+func CreateTokoData(c *gin.Context) {
+	var requestBody struct {
+		NamaToko      string `json:"nama_toko"`
+		NamaPedagang  string `json:"nama_pedagang"`
+		JenisDagangan string `json:"jenis_dagangan"`
+		Status        string `json:"status"`
+	}
+
+	if err := c.BindJSON(&requestBody); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	insertTokoQuery := databases.DB.Exec(`INSERT INTO epasar (nama_toko, nama_pedagang, jenis_dagangan, status) VALUES (?, ?, ?, ?)`, requestBody.NamaToko, requestBody.NamaPedagang, requestBody.JenisDagangan, requestBody.Status)
+
+	if insertTokoQuery.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": insertTokoQuery.Error.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Record created successfully"})
+}

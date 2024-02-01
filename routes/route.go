@@ -125,7 +125,8 @@ func Route() {
 	r.PUT("/admin/epasar/:id", middlewares.TokenAuthMiddleware(), admincontrollers.EditTokoData)
 	// HAPUS TOKO
 	r.DELETE("/admin/epasar/:id", middlewares.TokenAuthMiddleware(), admincontrollers.DeleteTokoData)
-	
+	// BUAT TOKO
+	r.POST("/admin/epasar", middlewares.TokenAuthMiddleware(), admincontrollers.CreateTokoData)
 
 	r.Run()
 }
