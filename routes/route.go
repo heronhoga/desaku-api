@@ -138,6 +138,8 @@ func Route() {
 	r.POST("/admin/artikel", middlewares.TokenAuthMiddleware(), admincontrollers.CreateArtikel)
 	// UPDATE ARTIKEL
 	r.PUT("/admin/artikel/:id", middlewares.TokenAuthMiddleware(), admincontrollers.UpdateArtikel)
+	// HAPUS ARTIKEL
+	r.DELETE("/admin/artikel/:id", middlewares.TokenAuthMiddleware(), admincontrollers.DeleteArtikel)
 
 	r.Run()
 }

@@ -105,3 +105,16 @@ func UpdateArtikel(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "Artikel updated successfully"})
 }
+
+func DeleteArtikel(c *gin.Context) {
+	id := c.Param("id")
+
+	result := databases.DB.Exec(`DELETE FROM artikel WHERE id_artikel = ?`, id)
+
+	if result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Artikel deleted successfully"})
+}
