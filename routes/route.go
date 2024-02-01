@@ -95,5 +95,7 @@ func Route() {
 	// --ADMIN - WIFI--
 	// DAPATKAN TAGIHAN WIFI
 	r.GET("/admin/wifi/tagihan", middlewares.TokenAuthMiddleware(), admincontrollers.GetAllTagihanWifi)
+	//BUAT TAGIHAN WIFI
+	r.POST("/admin/wifi/tagihan/:month", middlewares.TokenAuthMiddleware(), admincontrollers.CreateTagihanWifi) //BULAN INT 2 DIGIT
 	r.Run()
 }
