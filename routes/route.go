@@ -121,6 +121,9 @@ func Route() {
 	r.GET("/admin/epasar", middlewares.TokenAuthMiddleware(), admincontrollers.GetAllToko)
 	// DAPATKAN TOKO BERDASARKAN ID
 	r.GET("/admin/epasar/:id", middlewares.TokenAuthMiddleware(), admincontrollers.GetSpecificToko)
+	// UPDATE TOKO
+	r.PUT("/admin/epasar/:id", middlewares.TokenAuthMiddleware(), admincontrollers.EditTokoData)
+	
 
 	r.Run()
 }
