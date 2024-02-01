@@ -76,3 +76,20 @@ func CreateIuran (c *gin.Context) {
 	
 	c.JSON(http.StatusOK, gin.H{"message": "Data created successfully"})
 }
+
+func DeleteIuran (c *gin.Context) {
+	id := c.Param("id")
+
+	deleteQuery := databases.DB.Exec("DELETE FROM iuran WHERE id_iuran = ?", id)
+	if deleteQuery.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": deleteQuery.Error.Error()})
+		return
+	}
+
+	if deleteQuery.RowsAffected == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"error": "No record found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Data deleted successfully"})
+}
