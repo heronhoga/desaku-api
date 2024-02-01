@@ -31,6 +31,7 @@ func GetAllTagihanWifi (c *gin.Context) {
 
 	if tagihanWifiQuery.RowsAffected == 0 {
 		c.JSON(http.StatusNotFound, gin.H{"error": "No record found"})
+		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{"data": WargaWifi})
@@ -52,6 +53,7 @@ func CreateTagihanWifi (c *gin.Context) {
 
 	if pelangganWifiQuery.RowsAffected == 0 {
 		c.JSON(http.StatusNotFound, gin.H{"error": "No record found"})
+		return
 	}
 
 	for _, id := range TotalIdPelanggan {
@@ -74,9 +76,76 @@ func CreateTagihanWifi (c *gin.Context) {
 
 		if tagihanInsertQuery.RowsAffected == 0 {
 			c.JSON(http.StatusNotFound, gin.H{"error": "No record found"})
+			return
 		}
 	
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "Tagihan created successfully"})
+}
+
+func DataAktivasiWifi (c *gin.Context) {
+	var WargaWifi []struct {
+		IdPelanggan string `json:"id_pelanggan"`
+		Status string `json:"status"`
+		Nama string `json:"nama"`
+		Alamat string `json:"alamat"`
+	}
+
+	DataAktivasiQuery := databases.DB.Raw(`SELECT daftar_pelanggan_wifi.id_pelanggan, daftar_pelanggan_wifi.status, 
+	warga.nama, warga.alamat FROM daftar_pelanggan_wifi INNER JOIN warga ON daftar_pelanggan_wifi.id_warga = warga.id_warga WHERE daftar_pelanggan_wifi.status = 'proses'`).Scan(&WargaWifi)
+
+	if DataAktivasiQuery.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": DataAktivasiQuery.Error.Error()})
+		return
+	}
+
+	if DataAktivasiQuery.RowsAffected == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"error": "No record found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": WargaWifi})
+}
+
+func AktivasiWifi (c *gin.Context) {
+	id := c.Param("id")
+
+	wifiUpdateQuery := databases.DB.Exec("UPDATE daftar_pelanggan_wifi SET status = 'aktif' WHERE id_pelanggan = ? AND status = 'proses'", id)
+
+	if wifiUpdateQuery.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": wifiUpdateQuery.Error.Error()})
+		return
+	}
+
+	if wifiUpdateQuery.RowsAffected == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"error": "No record found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Data updated successfully"})
+}
+
+func DataPutusWifi (c *gin.Context) {
+	var WargaWifi []struct {
+		IdPelanggan string `json:"id_pelanggan"`
+		Status string `json:"status"`
+		Nama string `json:"nama"`
+		Alamat string `json:"alamat"`
+	}
+
+	DataAktivasiQuery := databases.DB.Raw(`SELECT daftar_pelanggan_wifi.id_pelanggan, daftar_pelanggan_wifi.status, 
+	warga.nama, warga.alamat FROM daftar_pelanggan_wifi INNER JOIN warga ON daftar_pelanggan_wifi.id_warga = warga.id_warga WHERE daftar_pelanggan_wifi.status = 'prosesputus'`).Scan(&WargaWifi)
+
+	if DataAktivasiQuery.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": DataAktivasiQuery.Error.Error()})
+		return
+	}
+
+	if DataAktivasiQuery.RowsAffected == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"error": "No record found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": WargaWifi})
 }

@@ -97,5 +97,11 @@ func Route() {
 	r.GET("/admin/wifi/tagihan", middlewares.TokenAuthMiddleware(), admincontrollers.GetAllTagihanWifi)
 	//BUAT TAGIHAN WIFI
 	r.POST("/admin/wifi/tagihan/:month", middlewares.TokenAuthMiddleware(), admincontrollers.CreateTagihanWifi) //BULAN INT 2 DIGIT
+	//DATA AKTIVASI WIFI
+	r.GET("/admin/wifi/aktivasi", middlewares.TokenAuthMiddleware(), admincontrollers.DataAktivasiWifi)
+	//AKTIVASI WIFI
+	r.PUT("/admin/wifi/aktivasi/:id", middlewares.TokenAuthMiddleware(), admincontrollers.AktivasiWifi) //ID PELANGGAN
+	//DATA PUTUS WIFI
+	r.GET("/admin/wifi/putus", middlewares.TokenAuthMiddleware(), admincontrollers.DataPutusWifi)
 	r.Run()
 }
