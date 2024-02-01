@@ -149,3 +149,21 @@ func DataPutusWifi (c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"data": WargaWifi})
 }
+
+func PutusWifi (c *gin.Context) {
+	id := c.Param("id")
+
+	wifiDeleteQuery := databases.DB.Exec("DELETE FROM daftar_pelanggan_wifi WHERE id_pelanggan = ? AND status = 'prosesputus'", id)
+
+	if wifiDeleteQuery.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": wifiDeleteQuery.Error.Error()})
+		return
+	}
+
+	if wifiDeleteQuery.RowsAffected == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"error": "No record found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Data deleted successfully"})
+}

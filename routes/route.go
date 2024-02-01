@@ -103,5 +103,7 @@ func Route() {
 	r.PUT("/admin/wifi/aktivasi/:id", middlewares.TokenAuthMiddleware(), admincontrollers.AktivasiWifi) //ID PELANGGAN
 	//DATA PUTUS WIFI
 	r.GET("/admin/wifi/putus", middlewares.TokenAuthMiddleware(), admincontrollers.DataPutusWifi)
+	//PUTUS WIFI
+	r.DELETE("/admin/wifi/putus/:id", middlewares.TokenAuthMiddleware(), admincontrollers.PutusWifi) //ID PELANGGAN
 	r.Run()
 }
