@@ -115,5 +115,10 @@ func Route() {
 	r.POST("/admin/iuran/tagihan/:month", middlewares.TokenAuthMiddleware(), admincontrollers.CreateIuran) //BULAN
 	//HAPUS TAGIHAN IURAN
 	r.DELETE("/admin/iuran/tagihan/:id", middlewares.TokenAuthMiddleware(), admincontrollers.DeleteIuran) //ID IURAN
+
+	// --ADMIN - E-PASAR--
+	// DAPATKAN SEMUA TOKO
+	r.GET("/admin/epasar", middlewares.TokenAuthMiddleware(), admincontrollers.GetAllToko)
+	// DAPATKAN TOKO BERDASARKAN ID
 	r.Run()
 }
