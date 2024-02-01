@@ -75,6 +75,8 @@ func Route() {
 	r.PUT("/admin/warga/:id", middlewares.TokenAuthMiddleware(), admincontrollers.EditWargaData) //ID WARGA DAN REQUEST BODY
 	// DELETE DATA WARGA
 	r.DELETE("/admin/warga/:id", middlewares.TokenAuthMiddleware(), admincontrollers.DeleteWargaData) //ID WARGA
+	// TAMBAH SALDO WARGA
+	r.PUT("/admin/warga/saldo/:id", middlewares.TokenAuthMiddleware(), admincontrollers.TambahSaldoWarga) //ID WARGA DAN REQUEST BODY
 
 	// --ADMIN - LISTRIK--
 	// DAPATKAN TAGIHAN LISTRIK

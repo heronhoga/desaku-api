@@ -139,3 +139,30 @@ func DeleteWargaData(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "Data deleted successfully"})
 }
+
+func TambahSaldoWarga (c *gin.Context) {
+	id := c.Param("id")
+
+	var requestData struct {
+		Saldo string `json:"saldo"`
+	}
+
+	if err := c.ShouldBindJSON(&requestData); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	updateQuery := databases.DB.Exec("UPDATE warga SET saldo = saldo + ? WHERE id_warga = ?", requestData.Saldo, id)
+
+	if updateQuery.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": updateQuery.Error.Error()})
+		return
+	}
+
+	if updateQuery.RowsAffected == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"error": "No record found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Data updated successfully"})
+}
