@@ -4,13 +4,15 @@ import (
 	admincontrollers "desaku-api/controllers/admin"
 	wargacontrollers "desaku-api/controllers/warga"
 	"desaku-api/middlewares"
-
+	"desaku-api/controllers"
 	"github.com/gin-gonic/gin"
 )
 
 func Route() {
 	r := gin.Default()
 
+	//GREETING
+	r.GET("/", controllers.Greeting)
 	// --WARGA--
 	// CREDENTIALS
 	r.POST("/warga/login", wargacontrollers.LoginWarga) //REQUEST BODY
