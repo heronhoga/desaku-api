@@ -102,3 +102,25 @@ func CreateTagihanPajak (c *gin.Context) {
 
 }
 
+func UpdateTagihanPajak (c *gin.Context) {
+    id := c.Param("id")
+
+    var reqBody struct {
+        TotalTagihanPajak string `json:"total_tagihan_pajak"`
+    }
+
+    if err := c.ShouldBindJSON(&reqBody); err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+        return
+    }
+
+    result := databases.DB.Exec(`UPDATE pajak SET total_tagihan_pajak = ? WHERE id_pajak = ?`, reqBody.TotalTagihanPajak, id)
+
+    if result.Error != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
+        return
+    }
+
+    c.JSON(http.StatusOK, gin.H{"message": "Pajak updated successfully"})
+}
+
