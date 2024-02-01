@@ -136,6 +136,8 @@ func Route() {
 	r.GET("/admin/artikel/:id", middlewares.TokenAuthMiddleware(), admincontrollers.GetSpecificArtikel)
 	// BUAT ARTIKEL
 	r.POST("/admin/artikel", middlewares.TokenAuthMiddleware(), admincontrollers.CreateArtikel)
+	// UPDATE ARTIKEL
+	r.PUT("/admin/artikel/:id", middlewares.TokenAuthMiddleware(), admincontrollers.UpdateArtikel)
 
 	r.Run()
 }

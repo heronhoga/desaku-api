@@ -73,3 +73,35 @@ func CreateArtikel(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "Artikel created successfully"})
 }
+
+func UpdateArtikel(c *gin.Context) {
+	id := c.Param("id")
+
+	var input struct {
+		Judul *string `json:"judul"`
+		Isi   *string `json:"isi"`
+	}
+
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if input.Judul != nil {
+		result := databases.DB.Exec(`UPDATE artikel SET judul = ? WHERE id_artikel = ?`, *input.Judul, id)
+		if result.Error != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
+			return
+		}
+	}
+
+	if input.Isi != nil {
+		result := databases.DB.Exec(`UPDATE artikel SET isi = ? WHERE id_artikel = ?`, *input.Isi, id)
+		if result.Error != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
+			return
+		}
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Artikel updated successfully"})
+}
