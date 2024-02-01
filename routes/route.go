@@ -134,6 +134,8 @@ func Route() {
 	r.GET("/admin/artikel", middlewares.TokenAuthMiddleware(), admincontrollers.GetAllArtikel)
 	// DAPATKAN ARTIKEL SPESIFIK
 	r.GET("/admin/artikel/:id", middlewares.TokenAuthMiddleware(), admincontrollers.GetSpecificArtikel)
+	// BUAT ARTIKEL
+	r.POST("/admin/artikel", middlewares.TokenAuthMiddleware(), admincontrollers.CreateArtikel)
 
 	r.Run()
 }

@@ -51,3 +51,25 @@ func GetSpecificArtikel(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"data": artikel})
 }
+
+func CreateArtikel(c *gin.Context) {
+
+	var input struct {
+		Judul string `json:"judul"`
+		Isi string `json:"isi"`
+	}
+
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	result := databases.DB.Exec(`INSERT INTO artikel (judul, isi) VALUES (?, ?)`, input.Judul, input.Isi)
+
+	if result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Artikel created successfully"})
+}
