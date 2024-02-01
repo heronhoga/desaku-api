@@ -22,7 +22,7 @@ func GetTagihanPajakWarga(c *gin.Context) {
     }
 
     //GETTING ALL DATA
-    result := databases.DB.Raw("SELECT id_pajak, id_warga, tahun, total_tagihan_pajak FROM pajak WHERE id_warga = ? AND status_bayar = 'pending'", id).Scan(&tagihanPajak)
+    result := databases.DB.Raw("SELECT id_pajak, id_warga, tahun, total_tagihan_pajak FROM pajak WHERE id_warga = ? AND status_bayar = 'pending' AND total_tagihan_pajak IS NOT NULL", id).Scan(&tagihanPajak)
 
     if result.Error != nil {
         c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
