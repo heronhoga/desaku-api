@@ -128,5 +128,10 @@ func Route() {
 	// BUAT TOKO
 	r.POST("/admin/epasar", middlewares.TokenAuthMiddleware(), admincontrollers.CreateTokoData)
 
+
+	// --ADMIN -ARTIKEL--
+	// DAPATKAN SEMUA ARTIKEL
+	r.GET("/admin/artikel", middlewares.TokenAuthMiddleware(), admincontrollers.GetAllArtikel)
+
 	r.Run()
 }
